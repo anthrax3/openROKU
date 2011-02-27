@@ -1,0 +1,134 @@
+REM Kirk Terrell
+
+Sub Main()
+
+
+REM Give rules
+
+p=CreateObject("roMessagePort")
+
+ps=CreateObject("roParagraphScreen")
+
+ps.SetMessagePort(p)
+
+p.SetTitle(" Hi Lo")
+
+p.AddParagraph("THIS IS THE GAME OF HI LO.")
+rem YOU WILL HAVE 6 TRIES TO GUESS THE AMOUNT OF MONEY IN THE
+rem HI LO JACKPOT, WHICH IS BETWEEN 1 AND 100 DOLLARS.  IF YOU
+rem GUESS THE AMOUNT, YOU WIN ALL THE MONEY IN THE JACKPOT!
+rem THEN YOU GET ANOTHER CHANCE TO WIN MORE MONEY.  HOWEVER,
+rem IF YOU DO NOT GUESS THE AMOUNT, THE GAME ENDS.")
+
+p.AddButton(1,"Play")
+
+p.Show()
+
+while true
+	msg=wait(0,p.GetMessagePort())
+	if type(msg)="roParagraphScreenEvent"
+		exit while
+	endif
+end while
+
+p.Close()
+
+R=0
+
+loop:
+
+Y=Rnd(100)
+B=0
+
+
+while B<6
+
+pin=CreateObject("roPinEntryDialog")
+
+pin.SetTitle("Your Guess")
+pin.SetNumPinEntryFields(1)
+pin.AddButton(1,"Play")
+pin.Show()
+while true
+	msg=wait(0,pin.GetMessagePort())
+	if type(msg)="roParagraphScreenEvent"
+		exit while
+	endif
+end while
+
+A=Val(pin.Pin())
+
+pin.Close()
+
+B=B+1
+
+if A=Y Then
+	R=R+Y
+	
+	md=CreateObject("roMessageDialog")
+	md.SetMessagePort(p)
+	md.SetText("GOT IT!!!!!!!!!!   YOU WIN";Y;"DOLLARS.
+	YOUR TOTAL WINNINGS ARE NOW";R;"DOLLARS."
+	PLAY AGAIN (YES OR NO)")
+	md.AddButton(1,"Play")
+	md.AddButton(2,"Quit")
+	md.Show()
+	
+	while true
+	msg=wait(0,pin.GetMessagePort())
+	if type(msg)="roMessageDialog"
+		exit while
+	endif
+	end while
+	md.Close()
+	if msg.GetIndex()=1 then goto loop else exit
+
+	end if
+
+If A>Y Then
+	md=CreateObject("roMessageDialog")
+	md.SetMessagePort(p)
+	md.SetText("Your Guess is High")
+	sleep(3)
+	md.Close()
+	end if
+
+If A<Y then
+	md=CreateObject("roMessageDialog")
+	md.SetMessagePort(p)
+	md.SetText("Your Guess is High")
+	sleep(3)
+	md.Close()
+	end if
+
+
+end while
+
+R=0
+
+R=R+Y
+	md=CreateObject("roMessageDialog")
+	md.SetMessagePort(p)
+	md.SetText("YOU BLEW IT...TOO BAD...THE NUMBER WAS";Y")
+	md.AddButton(1,"Play Again")
+	md.AddButton(2,"Quit")
+	md.Show()
+	
+	while true
+	msg=wait(0,pin.GetMessagePort())
+	
+	if type(msg)="roMessageDialog"
+		exit while
+	endif
+	end while
+	
+	md.Close()
+	
+	if msg.GetIndex()=1 then goto loop else exit
+	
+
+end Sub
+
+
+
+

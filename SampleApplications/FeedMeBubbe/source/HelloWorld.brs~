@@ -1,0 +1,34 @@
+'Modified By Kirk
+
+Sub Main()
+
+  
+  p = CreateObject("roMessagePort")
+  screen = CreateObject("roSpringboardScreen")
+  screen.SetMessagePort(p)
+
+  o = CreateObject("roAssociativeArray")
+  o.ContentType = "episode"
+  o.Title = "Kirk App"
+  o.Description = "Hello World!"
+  o.SDPosterURL = "pkg:/images/episode_icon_sd.png"
+  o.HDPosterURL = "pkg:/images/episode_icon_sd.png"
+
+  REM This gives the content
+  screen.SetContent(o)
+  
+  REM This Gives Addiitonal Contnent
+  screen.AddButton(1, "Make It Stop")
+
+  REM This actually Displays Screen
+  screen.Show()
+
+  i=0	
+  while i=0
+    msg = wait(0, p)
+    if msg.isButtonPressed()
+      i=1
+    endif
+  end while
+
+end Sub
