@@ -1,0 +1,31 @@
+INTRODUCTION
+------------
+
+This is openROKU, an open source of library(s) to support rapid development of working channels.  
+
+
+INSTALLATION
+------------
+
+Installing the libraries into your project is simple:
+
+1. One option is to copy the librarary(s) into your source directory
+
+2. A second option is to modify your makefile to copy the library(s) from a central place
+
+2. Copy the rokudev_src/ directory from the libRokuDev repository
+   (in source/librokudev/source/ ) into your project inside the source/
+   directory that contains your BrightScript .brs files.
+
+
+
+LICENSE
+-------
+
+All files are Copyright 2011, Kirk Terrell. This library, and example programs, is free software;
+see the LICENSE file for more details.
+
+NOTES
+-----
+
+
