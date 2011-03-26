@@ -1,24 +1,28 @@
 '********************************************************************
 '**  Library rlRSS 
-'**  Febuary 2011
+'**  March 2011
 '**  Provides Functions do the following
 '**		Parse an RSS 2 compliant feed (GetFeed)
 '**		Populate the metadata for a content list from a parsed feed (CreateContentListRSS2)
 '**		Provide a UI to select content Item (GetContent, GetNext)
 '**		Present Content item(s) (PlayText, PlaySlideShow, PlayAudio, and PlayVideo)
 '**  Copyright (c) 2011 Kirk Terrell. All Rights Reserved.
+'**	 Updated GetFeed
+'**  Updated GetContent
 '********************************************************************
 
 
 '********************************************************************
 '**  Function GetFeed
-'**  Febuary 2011
+'**  March 2011
 '**  Copyright (c) 2011 Kirk Terrell. All Rights Reserved.
+'**  Removed processing of colon(:) by sed1
+'**  Slowed process and not needed by RSS 2.0 elements.
 '********************************************************************
 
 
 Function GetFeed(rss as object, url as string) as boolean
-	
+	f=UpTime(1)
 	'Create One Line Dialog to let user know that processing is occuring
 	old=CreateObject("roOneLineDialog")
 	old.SetTitle("Retrieving")
@@ -28,14 +32,14 @@ Function GetFeed(rss as object, url as string) as boolean
 	p=CreateObject("roMessagePort")
 	'Get source from designated website. Similar to lynx -dump url
 	ut=CreateObject("roUrlTransfer")
-	sed1=CreateObject("roRegEx",":[a-z]","")			'BrightSign does not process : will replace with _
 	ut.SetUrl(url)
 	ut.SetPort(p)
 	ut.AsyncGetToString()
 	msg=wait(0,p)
 
 	print "Start Parse"
-	if rss.Parse(sed1.ReplaceAll(msg.GetString(),"_"))
+	if rss.Parse(msg.GetString())
+		print "Execution Time "; UpTime(2)-f
 		print "Succesful Feed Retrieval"	
 		old.Close()
 		return true
@@ -53,7 +57,7 @@ End Function
 '********************************************************************
 '**  Function CreateContentListRSS2
 '**  Populates Meta-Data based on minimal RSS 2.0 specification
-'**  Febuary 2011
+'**  February 2011
 '**  Copyright (c) 2011 Kirk Terrell. All Rights Reserved.
 '********************************************************************
 
@@ -115,8 +119,9 @@ end Function
 '********************************************************************
 '**  Function GetContent
 '**  Uses Poster Screen to provide user with choice of content.
-'**  Febuary 2011
+'**  March 2011
 '**  Copyright (c) 2011 Kirk Terrell. All Rights Reserved.
+'**  Set ListStyle to flat episodic in all cases
 '********************************************************************
 
 Function GetContent(X as object, p as object, i as integer) as integer
@@ -127,7 +132,7 @@ Function GetContent(X as object, p as object, i as integer) as integer
 	indx=0
 
 	ss1.SetContentList(X)
-	if X[0].SDPosterUrl="" or X[0].SDPosterUrl=X[1].SDPosterUrl then ss1.SetListStyle("flat-episodic")
+	ss1.SetListStyle("flat-episodic")
 	ss1.SetFocusedListItem(i)
 	ss1.show()
 
@@ -158,7 +163,7 @@ End Function
 '********************************************************************
 '**  Function GetNext
 '**  Updates Focus Item for Poster Screen based on Released Date
-'**  Febuary 2011
+'**  February 2011
 '**  Copyright (c) 2011 Kirk Terrell. All Rights Reserved.
 '********************************************************************
 
@@ -192,7 +197,7 @@ end Function
 
 '********************************************************************
 '**  Sub PlayText
-'**  Febuary 2011
+'**  February 2011
 '**  Copyright (c) 2011 Kirk Terrell. All Rights Reserved.
 '********************************************************************
 
@@ -242,7 +247,7 @@ end Sub
 
 '********************************************************************
 '**  Sub PlaySlideShow
-'**  Febuary 2011
+'**  February 2011
 '**  Copyright (c) 2011 Kirk Terrell. All Rights Reserved.
 '********************************************************************
 
@@ -283,7 +288,7 @@ end sub
 
 '********************************************************************
 '**  Sub PlayAudio
-'**  Febuary 2011
+'**  February 2011
 '**  Copyright (c) 2011 Kirk Terrell. All Rights Reserved.
 '********************************************************************
 
@@ -372,7 +377,7 @@ end Sub
 
 '********************************************************************
 '**  Sub PlayVideo
-'**  Febuary 2011
+'**  February 2011
 '**  Copyright (c) 2011 Kirk Terrell. All Rights Reserved.
 '********************************************************************
 
@@ -416,7 +421,7 @@ end Sub
 
 '********************************************************************
 '**  Function StreamBuffer
-'**  Febuary 2011
+'**  February 2011
 '**  Copyright (c) 2011 Kirk Terrell. All Rights Reserved.
 '********************************************************************
 
@@ -456,7 +461,7 @@ end Function
 
 '********************************************************************
 '**  Function StdPubDate
-'**  Febuary 2011
+'**  February 2011
 '**  Copyright (c) 2011 Kirk Terrell. All Rights Reserved.
 '********************************************************************
 

@@ -1,0 +1,70 @@
+' ********************************************************************
+' **  Sample PlayVideo App
+' **  Copyright (c) 2009 Roku Inc. All Rights Reserved.
+' ********************************************************************
+'Copyright 2011 Kirk Terrell
+
+
+Sub Main() 
+
+REM Create Required Objects
+
+REM 
+
+where=CreateObject("roUrlTransfer")
+text=ReadAsciiFile("pkg:/where.txt")
+' This removes the EOF character
+text=left(text,Len(text)-1)
+where.SetUrl(text)
+
+rsp=CreateObject("roXMLElement")
+rsp.Parse(where.GetToString())
+print rsp.slide.Count()
+' should have an action if the slide count is zero so that one enters a location
+
+
+p=CreateObject("roMessagePort")
+ss1=CreateObject("roVideoScreen")
+
+clip=CreateObject("roAssociativeArray")
+
+
+' load images and start show
+
+ss1.ClearContent()
+n=rsp.slide.Count()-1
+
+
+For i = 0 to n
+
+clip.urls[0]=rsp.talk[i]@url
+clip.qualitied[0]=rsp.talk[i]@quality
+clip.streamformats[0]=rsp.talk[i]@format
+clip.title=rsp.talk[i]@title
+clip.bitrates=[0]
+ss1.AddContent(clip)
+
+end for
+
+
+
+ss1.Show()
+
+while true
+
+msg=wait(0,p)
+if type(msg)="roSlideShow" then
+	goto out
+	end if
+
+end while 
+out:
+
+
+ss1.Close()
+
+bye:
+
+REM The SlideShow object is automatically repsonive to the basic keys play/pause 
+print "good bye cold cruel world"
+

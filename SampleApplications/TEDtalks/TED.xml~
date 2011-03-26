@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<rsp stat="ok" >
+	<slide url="http://10.0.0.5/ourPhotos/20051218%20-%20Santa%20Barbara/Card%201/P1010002.JPG" />
+	<slide url="http://10.0.0.5/ourPhotos/20051218%20-%20Santa%20Barbara/Card%201/P1010001.JPG"/>
+	<slide url="http://10.0.0.5/ourPhotos/20051218%20-%20Santa%20Barbara/Card%201/P1010003.JPG"/>
+</rsp>

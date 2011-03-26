@@ -1,0 +1,32 @@
+#!/bin/bash
+#: Title       : TED Channel
+#: Date        : 2010-10-10
+#: Author      : "Kirk Terrell"
+#: Version     : 1.0
+#: Description : write to variables and file
+#: Options     : None
+
+lynx -dump http://feeds.feedburner.com/tedtalks_video >ted.txt
+grep "feedburner:origEnclosureLink" ted.txt > ted2.txt
+cut -d " " -f 5 ted2.txt > ted3.txt
+cut -c 33- ted3.txt > ted5.txt
+cut -d "<" -f 1 ted5.txt > ted6.txt
+echo '<?xml version="1.0" encoding="utf-8" ?>' > ted4.xml
+echo '<rsp stat="ok" >' >> ted4.xml
+while read 
+do
+echo '<talk url="'$REPLY'" />' >> ted4.xml
+done < ted6.txt
+echo "</rsp>" >> ted4.xml
+sed 's/.mp4/_480.mp4/g' ted4.xml > ted5.xml
+
+# Push XML file to zip file
+zip -m 12_TED.zip ted5.xml
+# push zip file to roku
+
+curl -s -S -F "mysubmit=Delete" http://10.0.0.3/plugin_install
+archive=12_TED.zip
+
+curl -s -S -F "mysubmit=Install" -F "archive=@$archive"  http://10.0.0.3/plugin_install 
+
+

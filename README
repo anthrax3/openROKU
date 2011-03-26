@@ -27,5 +27,9 @@ see the LICENSE file for more details.
 
 NOTES
 -----
+This is an update from the library loaded in February. 
+Dealing with colons (:) in RSS tags has taken a while. My original approach was to attempt to replace them with
+underscores (_) except in URLs. BrightScript perfroms these operations slowly. I've determined that reffering to the 
+elements indirectly is faster. This method is demostrated in the TED talks example.
 
 
