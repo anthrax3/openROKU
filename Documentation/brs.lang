@@ -1,0 +1,103 @@
+<?xml version="1.0" encoding="UTF-8"?> 
+
+<!-- This library is free software; you can redistribute it and/or modify it under the terms of the GNU Library General Public License as published by the Free Software Foundation; either version 2 of the License, or (at your option) any later version. This library is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU Library General Public License for more details. You should have received a copy of the GNU Library General Public License along with this library; if not, write to the Free Software Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA. --> 
+
+<!-- Copy file to $HOME/.local/share/gtksourceview-2.0/language-specs/brs.lang --> 
+
+<language id="brs" _name="BrightScript" version="2.0" _section="Sources"> 
+
+<metadata> 
+	<property name="globs">*.brs</property>
+	<property name="line-comment-start">'</property> 
+</metadata> 
+
+<styles> 
+	<style id="keyword" 	_name="Keyword" 			map-to="def:keyword"/> 
+	<style id="type" 		_name="Data Type" 			map-to="def:type"/> 
+	<style id="string" 		_name="String" 				map-to="def:string"/> 
+	<style id="decimal" 	_name="Decimal" 			map-to="def:decimal"/> 
+	<style id="comment" 	_name="Comment" 			map-to="def:comment"/> 
+	<style id="comment2" 	_name="Comment2" 			map-to="def:comment"/> 
+</styles> 
+
+<default-regex-options case-sensitive="false"/> 
+
+<definitions> 
+<context id="brs"> 
+	<include> 
+		<context ref="keyword"/> 
+		<context ref="type"/> 
+		<context ref="string"/> 
+		<context ref="number"/> 
+		<context ref="comment"/> 
+		<context ref="comment2"/> 
+	</include> 
+</context> 
+
+<context id="keyword" style-ref="keyword"> 
+	<keyword>AS</keyword> 	
+	<keyword>DIM</keyword> 
+	<keyword>EACH</keyword> 
+	<keyword>ELSE</keyword> 
+	<keyword>ELSEIF</keyword> 
+	<keyword>END</keyword> 
+	<keyword>ENDIF</keyword> 
+	<keyword>EXIT</keyword> 
+	<keyword>FOR</keyword>
+	<keyword>FUNCTION</keyword>
+	<keyword>GOTO</keyword> 
+	<keyword>IF</keyword> 
+	<keyword>IN</keyword> 
+	<keyword>PRINT</keyword> 
+	<keyword>RETURN</keyword> 
+	<keyword>STEP</keyword> 
+	<keyword>STOP</keyword> 
+	<keyword>SUB</keyword>
+	<keyword>TO</keyword> 
+	<keyword>THEN</keyword> 
+	<keyword>WHILE</keyword> 
+</context> 
+
+<context id="type" style-ref="type"> 
+	<keyword>Boolean</keyword> 
+	<keyword>Double</keyword> 
+	<keyword>Integer</keyword> 
+	<keyword>Object</keyword>
+	<keyword>String</keyword> 
+	<keyword>Void</keyword> 
+</context> 
+
+
+
+
+<context id="string" style-ref="string" end-at-line-end="true"> 
+	<start>"</start> 
+	<end>"</end> <!-- no escapes possible except for "" = literal " -->
+
+	<include> 
+		<context id="string-esc" style-ref="escaped-character" extend-parent="true"> 
+			<match>""</match> 
+		</context> 
+	</include> 
+</context> 
+
+<context id="number" style-ref="decimal"> 
+	<match extended="true"> (?&lt;![\w\.]) [0-9][0-9_]*(E[+]?[0-9][0-9_]*)? (?![\w\.]) 	</match> 
+</context> 
+
+
+ <!-- Comments -->
+
+<context id="comment" style-ref="comment" end-at-line-end="true"> 			
+	<start>'</start> 
+</context> 
+
+<context id="comment2" style-ref="comment2" end-at-line-end="true"> 			
+	<start>REM</start> 
+</context> 
+
+
+
+
+</definitions> 
+</language> 
